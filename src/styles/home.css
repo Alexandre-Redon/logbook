@@ -1,0 +1,246 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    background: #fff;
+    height: 5rem;
+    width: 100vw;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    justify-content: space-around;
+}
+
+.desktopMenuItemListItem {
+    margin: 2rem;
+    cursor: pointer;
+
+}
+
+.logo {
+    object-fit: cover;
+    height: 5rem;
+    width: 5rem;
+}
+
+.itemNav {
+    object-fit: cover;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: 1rem;
+}
+
+.desktopMenuItemListItem:hover {
+    color: #EF6D58;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.2rem solid #EF6D58 ;
+}
+
+.item {
+    padding: 1rem;
+}
+
+.promo {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100rem;
+    width: 100rem;
+    max-width: 100%;
+    max-height: 40rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.promo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: flex-end;
+    justify-content: space-evenly;
+    width: 450px;
+    height: 340px;
+    max-height: 40rem;
+    background-color: #FFF3E3;
+    padding: 2rem;
+    margin: 2rem;
+}
+
+.promo-content-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #B88E2F;
+    margin: 1rem;
+}
+
+.btn-promo {
+    background-color: #B88E2F;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+.categories-list-item-img {
+    height: 10rem;
+    width: 10rem;
+    margin: 1rem;
+    object-fit:fill;
+}
+
+.categories-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-content: space-evenly;
+    height: 20rem;
+    width: 20rem;
+    max-width: 100%;
+    max-height: 40rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.categories-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    margin: 1rem;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100rem;
+    max-width: 100%;
+    min-height: 50rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.categories-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1rem;
+    margin-top: 5rem;
+}
+
+.category-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem;
+    text-decoration: none;
+    color: black;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100rem;
+    max-width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.products-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1rem;
+}
+
+.products-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.products-list-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    margin: 1rem;
+}
+
+.products-list-item-img {
+    height: 10rem;
+    width: 10rem;
+    margin: 1rem;
+    object-fit:fill;
+}
+
+.products-list-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+
+}
+
+.products-list-item-price {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem;
+    text-decoration: none;
+    color: black;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100rem;
+    max-width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 10rem 0 2rem;
+}
+
+.ligne1 {
+    width: 100%;
+    color: black;
+    margin-bottom: 4rem;
+}
+
+.ligne2 {
+    color: black;
+    width: 70%;
+    margin-top: 1.5rem;
+}
+
+table {
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+tr {
+    display: flex;
+    justify-content: space-evenly;
+}
