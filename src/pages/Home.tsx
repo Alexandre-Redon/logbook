@@ -109,7 +109,9 @@ const Home = () => {
           </button>
         </div>
       </section>
-      <Footer />
+      <section className="foot">
+        <Footer />
+      </section>
     </div>
   );
 };
