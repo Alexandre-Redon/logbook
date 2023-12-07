@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
+import React, { useContext, useEffect, useState } from "react";
 import background from "../assets/background3.jpg";
 import { Link } from "react-router-dom";
 import { Product } from "../types/products";
 import { data } from "../data/data";
-import Footer from "../components/Footer";
+import { ApiContext } from "../context/ApiContext";
 // import all images from src/assets/categories
 
 const Home = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<[]>([]);
   const [showMore, setShowMore] = useState<number>(12);
+  const { getAllProducts, product, categories, getCategories } =
+    useContext(ApiContext);
   const categoryImg = data;
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products?limit=100")
-      .then((res) => res.json())
-      .then((json) => setProducts(json.products))
-      .catch((err) => console.log(err));
+    getAllProducts();
   }, []);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products/categories")
-      .then((res) => res.json())
-      .then((json) => setCategories(json))
-      .then(() => console.log(categories))
-      .catch((err) => console.log(err));
+    getCategories();
   }, []);
+
+  console.log(product);
+  console.log(categories);
 
   return (
     <div className="Home">
-      <Header />
       <article
         className="promo"
         style={{ backgroundImage: `url(${background})` }}
@@ -82,7 +76,7 @@ const Home = () => {
       <section className="products">
         <h2 className="products-title">Our Products</h2>
         <div className="products-list">
-          {products.slice(0, showMore).map((product: Product) => (
+          {product.slice(0, showMore).map((product: Product) => (
             <Link
               to={`/shop/productsDetails/${product.category}`}
               className="products-list-item"
@@ -108,9 +102,6 @@ const Home = () => {
             See More
           </button>
         </div>
-      </section>
-      <section className="foot">
-        <Footer />
       </section>
     </div>
   );
