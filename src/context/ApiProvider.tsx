@@ -3,12 +3,12 @@ import { ApiContext } from "./ApiContext";
 import { useState } from "react";
 import { Product } from "../types/products";
 import { Category } from "../types/category";
-import { Cart } from "../types/cart";
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
   const [product, setProduct] = useState<Product[]>([]);
+  const [productDetails, setProductDetails] = useState<Product>({} as Product);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [cart, setCart] = useState<Cart[]>([]);
   const BASE_URL = "https://dummyjson.com";
 
   const getAllProducts = async () => {
@@ -19,26 +19,8 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
 
   const getOneProduct = async (id: string) => {
     const res = await axios.get(BASE_URL + `/products/${id}`);
-    setProduct(res.data);
-    return res;
-  };
-
-  const getCart = async () => {
-    const res = await axios.get("/cart");
-    setCart(res.data);
-    return res;
-  };
-
-  const addToCart = async (id: string) => {
-    const res = await axios.post("/cart", id);
-    setCart(res.data);
-    return res;
-  };
-
-  const removeFromCart = async (id: string) => {
-    const res = await axios.delete(`/cart/${id}`);
-    setCart(res.data);
-    return res;
+    setProductDetails(res.data);
+    return res.data;
   };
 
   const getCategories = async () => {
@@ -48,9 +30,9 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getProductsByCategory = async (name: string) => {
-    const res = await axios.get(`/categories/${name}`);
-    setProduct(res.data);
-    return res;
+    const res = await axios.get(BASE_URL + `/products/category/${name}`);
+    setRelatedProducts(res.data.products);
+    return res.data.products;
   };
 
   const getProductsBySearch = async (search: string) => {
@@ -64,12 +46,10 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
       value={{
         product,
         categories,
-        cart,
+        productDetails,
+        relatedProducts,
         getAllProducts,
         getOneProduct,
-        getCart,
-        addToCart,
-        removeFromCart,
         getCategories,
         getProductsByCategory,
         getProductsBySearch,
@@ -78,4 +58,7 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ApiContext.Provider>
   );
+}
+function getOneProduct(id: any): Product {
+  throw new Error("Function not implemented.");
 }
