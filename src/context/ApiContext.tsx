@@ -6,29 +6,25 @@ import { Cart } from "../types/cart";
 type DefaultValues = {
   getAllProducts: () => void;
   getOneProduct: (id: string) => void;
-  getCart: () => void;
-  addToCart: (id: string) => void;
-  removeFromCart: (id: string) => void;
   getCategories: () => void;
   getProductsByCategory: (id: string) => void;
   getProductsBySearch: (search: string) => void;
   product: Product[];
+  productDetails: Product;
+  relatedProducts: Product[];
   categories: Category[];
-  cart: Cart[];
 };
 
 const defaultValues: DefaultValues = {
   getAllProducts: () => {},
   getOneProduct: () => {},
-  getCart: () => {},
-  addToCart: () => {},
-  removeFromCart: () => {},
   getCategories: () => {},
   getProductsByCategory: () => {},
   getProductsBySearch: () => {},
   product: [],
+  productDetails: {} as Product,
+  relatedProducts: [],
   categories: [],
-  cart: [],
 };
 
 export const ApiContext = createContext(defaultValues);

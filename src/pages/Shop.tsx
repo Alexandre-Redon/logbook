@@ -4,12 +4,14 @@ import "../styles/shop.css";
 import { Link } from "react-router-dom";
 import { Product } from "../types/products";
 import { ApiContext } from "../context/ApiContext";
+import { CartContext } from "../context/Cart";
 import ReactPaginate from "react-paginate";
 
 const Shop = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const { getAllProducts, product } = useContext(ApiContext);
+  const { cartItems, addToCart } = useContext(CartContext);
 
   useEffect(() => {
     getAllProducts();
@@ -24,14 +26,17 @@ const Shop = () => {
     setFilteredProducts(filteredProducts);
   };
 
+  console.log(cartItems);
+
   function Products({ currentProducts }: Product[]) {
     return (
       <div className="products-list">
         {currentProducts &&
           currentProducts.map((product: Product) => {
             return (
+              // add to cart
               <div className="shop-products-card" key={product.id}>
-                <Link to={`/shop/${product.id}`}>
+                <Link to={`/product/${product.id}`}>
                   <img
                     src={product.images[0]}
                     alt={product.title}
@@ -48,6 +53,12 @@ const Shop = () => {
                     {product.price} €
                   </p>
                 </div>
+                <button
+                  className="shop-products-card-btn"
+                  onClick={() => addToCart(product)}
+                >
+                  Add to cart
+                </button>
               </div>
             );
           })}
@@ -97,7 +108,7 @@ const Shop = () => {
         }}
       >
         <h2>Shop</h2>
-        <div className="shop_accueil_div">
+        <div className="shop_accueil_2">
           <Link to="/">
             <p className="shop_accueil_text">Home &gt;</p>
           </Link>
