@@ -3,18 +3,20 @@ import "../styles/productsDetail.css";
 import { ApiContext } from "../context/ApiContext";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../types/products";
+import { CartContext } from "../context/Cart";
 
 const ProductDetails = () => {
   const {
     getOneProduct,
     productDetails,
     relatedProducts,
-    addToCart,
     getProductsByCategory,
   } = useContext(ApiContext);
+
+  const { addToCart } = useContext(CartContext);
   const [loading, setLoading] = useState(true);
   // get the id from the url
-  const id: string = useParams<{ id: string }>().id;
+  const id: string = useParams<{ id: string }>().id ?? "";
 
   // make a 1sec delay to show the loading
 
@@ -23,16 +25,16 @@ const ProductDetails = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [id]);
+  }, [getOneProduct, id]);
 
   useEffect(() => {
     if (productDetails?.category) {
       getProductsByCategory(productDetails.category);
     }
-  }, [productDetails]);
+  }, [getProductsByCategory, productDetails]);
 
   const handleAddCart = () => {
-    addToCart(productDetails);
+    addToCart(productDetails.id);
   };
 
   if (loading) {

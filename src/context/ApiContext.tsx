@@ -1,7 +1,6 @@
 import { createContext } from "react";
 import { Product } from "../types/products";
 import { Category } from "../types/category";
-import { Cart } from "../types/cart";
 
 type DefaultValues = {
   getAllProducts: () => void;
@@ -21,10 +20,10 @@ const defaultValues: DefaultValues = {
   getCategories: () => {},
   getProductsByCategory: () => {},
   getProductsBySearch: () => {},
-  product: [],
+  product: [] as Product[],
   productDetails: {} as Product,
-  relatedProducts: [],
-  categories: [],
+  relatedProducts: [] as Product[],
+  categories: [] as Category[],
 };
 
 export const ApiContext = createContext(defaultValues);

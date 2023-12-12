@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import background from "../assets/shop_background.jpg";
 import "../styles/shop.css";
 import { Link } from "react-router-dom";
@@ -8,27 +8,15 @@ import { CartContext } from "../context/Cart";
 import ReactPaginate from "react-paginate";
 
 const Shop = () => {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const { getAllProducts, product } = useContext(ApiContext);
-  const { cartItems, addToCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
-  const handleChange = () => {
-    const input = document.querySelector(".filter-search-bar-input-text");
-    const inputValue = input?.nodeValue;
-    const filteredProducts = product.filter((product) => {
-      return product.title.toLowerCase().includes(inputValue);
-    });
-    setFilteredProducts(filteredProducts);
-  };
-
-  console.log(cartItems);
-
-  function Products({ currentProducts }: Product[]) {
+  const Products = ({ currentProducts } : any) => {
     return (
       <div className="products-list">
         {currentProducts &&
@@ -55,7 +43,7 @@ const Shop = () => {
                 </div>
                 <button
                   className="shop-products-card-btn"
-                  onClick={() => addToCart(product)}
+                  onClick={() => addToCart(product.id)}
                 >
                   Add to cart
                 </button>
@@ -66,7 +54,7 @@ const Shop = () => {
     );
   }
 
-  function PaginatedItems({ productsPerPage }: any) {
+  const PaginatedItems = ({ productsPerPage }: any) => {
     const [itemOffset, setItemOffset] = useState(0);
 
     const endOffset = itemOffset + productsPerPage;
@@ -74,7 +62,7 @@ const Shop = () => {
     const currentItems = product.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(product.length / productsPerPage);
 
-    const handlePageClick = (event) => {
+    const handlePageClick = (event : any) => {
       const newOffset = (event.selected * productsPerPage) % product.length;
       console.log(
         `User requested page number ${event.selected}, which is offset ${newOffset}`
@@ -128,7 +116,6 @@ const Shop = () => {
             type="text"
             placeholder="Search..."
             className="filter-search-bar-input-text"
-            onClick={() => handleChange()}
           />
           <button className="filter-search-bar-input-btn">
             <i className="fas fa-search"></i>

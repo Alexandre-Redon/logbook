@@ -1,5 +1,3 @@
-import { useState } from "react";
-import firebase from "firebase/compat/app";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./pages/Layout";
@@ -14,9 +12,6 @@ import ProductDetails from "./pages/ProductDetails";
 import Contact from "./pages/Contact";
 
 function App() {
-  const [user, setUser] = useState<firebase.User | null>(null);
-  const [loading, setLoading] = useState(true);
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

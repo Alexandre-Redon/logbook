@@ -1,10 +1,9 @@
 import firebase from "firebase/compat/app";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useC;
 
   const handleLogin = async () => {
     try {
@@ -19,11 +18,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+      console.log("User", user);
       setLoading(false);
     });
     return unsubscribe;
