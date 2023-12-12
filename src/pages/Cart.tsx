@@ -1,14 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import background from "../assets/shop_background.jpg";
 import { Link } from "react-router-dom";
 import "../styles/cart.css";
-import { ApiContext } from "../context/ApiContext";
 import { Product } from "../types/products";
 import { CartContext } from "../context/Cart";
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
-    useContext(CartContext);
+  const { cartItems, addToCart, removeFromCart, getCartTotal } = useContext(CartContext);
 
   return (
     <section className="cart">

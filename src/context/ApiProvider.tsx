@@ -59,6 +59,3 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
     </ApiContext.Provider>
   );
 }
-function getOneProduct(id: any): Product {
-  throw new Error("Function not implemented.");
-}

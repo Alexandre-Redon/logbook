@@ -1,42 +1,63 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { Product } from "../types/products";
 
-export const CartContext = createContext({});
 
-export const CartProvider = ({ children }) => {
+type DefaultValues = {
+  cartItems: Product[];
+  addToCart: (item: number) => void;
+  removeFromCart: (item: number) => void;
+  clearCart: () => void;
+  getCartTotal: () => number;
+};
+
+const defaultValues: DefaultValues = {
+  cartItems: [],
+  addToCart: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+  getCartTotal: () => 0,
+};
+
+export const CartContext = createContext(defaultValues);
+
+interface Props {
+  children: ReactNode;
+}
+export const CartProvider = ({ children } : Props) => {
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
+      ? JSON.parse(localStorage.getItem("cartItems")!)
       : []
   );
 
-  const addToCart = (item : number) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item);
+  const addToCart = (item: number) => {
+    const isItemInCart = cartItems.find((cartItem : Product) => cartItem.id === item);
 
     if (isItemInCart) {
       setCartItems(
-        cartItems.map((cartItem) =>
+        cartItems.map((cartItem : Product) =>
           cartItem.id === item
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      setCartItems([...cartItems, { item, quantity: 1 }]);
     }
   };
 
-  const removeFromCart = (item : number) => {    
-    const isItemInCart = cartItems.find((cartItem : Product) => cartItem.id === item);
+  const removeFromCart = (item: number) => {
+    const isItemInCart = cartItems.find(
+      (cartItem: Product) => cartItem.id === item
+    );
 
     console.log(isItemInCart);
-    
-    
+
     if (isItemInCart.quantity === 1) {
-      setCartItems(cartItems.filter((cartItem) => cartItem.id !== item));
+      setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item));
     } else {
       setCartItems(
-        cartItems.map((cartItem : Product) =>
+        cartItems.map((cartItem: Product) =>
           cartItem.id === item
             ? { ...cartItem, quantity: cartItem.quantity - 1 }
             : cartItem
