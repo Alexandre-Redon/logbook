@@ -34,7 +34,7 @@ const ProductDetails = () => {
   }, [getProductsByCategory, productDetails]);
 
   const handleAddCart = () => {
-    addToCart(productDetails.id);
+    addToCart(productDetails);
   };
 
   if (loading) {

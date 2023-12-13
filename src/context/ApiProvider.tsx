@@ -2,13 +2,12 @@ import axios from "axios";
 import { ApiContext } from "./ApiContext";
 import { useState } from "react";
 import { Product } from "../types/products";
-import { Category } from "../types/category";
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
   const [product, setProduct] = useState<Product[]>([]);
   const [productDetails, setProductDetails] = useState<Product>({} as Product);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const BASE_URL = "https://dummyjson.com";
 
   const getAllProducts = async () => {

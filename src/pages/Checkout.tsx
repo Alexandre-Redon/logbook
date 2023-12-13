@@ -63,9 +63,7 @@ const Checkout = () => {
   // });
 
   const handleSubmit = async () => {
-
     console.log("cartItems", cartItems);
-    
 
     //const stripe = await loadStripe(env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -79,39 +77,26 @@ const Checkout = () => {
     };
 
     const response = await fetch(
-      "https://logbook-backend.vercel.app/create-checkout-session",
+      "https://logbook-backend.vercel.app/payments/create-checkout-session",
       {
         method: "POST",
         headers: header,
         body: JSON.stringify(body),
       }
     );
-    console.log(response);
 
-  //   const result = await stripe?.redirectToCheckout({
-  //     sessionId: session.id,
-  //   });
+    const responseData = await response.json();
+    const stripe = await loadStripe(env.VITE_STRIPE_PUBLIC_KEY);
+    if (!stripe) {
+      return;
+    }
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: responseData.sessionId,
+    });
 
-  //   const order = {
-  //     firstName,
-  //     lastName,
-  //     companyName,
-  //     country,
-  //     streetAdress,
-  //     town,
-  //     zipCode,
-  //     phone,
-  //     email,
-  //     order: {
-  //       id: 0,
-  //       name: "commande",
-  //       price: getCartTotal(),
-  //       products: cartItems,
-  //       status: "en cours",
-  //       created_at: new Date().toISOString(),
-  //       updated_at: new Date().toISOString(),
-  //     },
-  //   };
+    if (error) {
+      console.error("Error redirecting to checkout:", error);
+    }
   };
 
   return (
@@ -136,11 +121,7 @@ const Checkout = () => {
         <div className="checkout-page">
           <section className="checkout-form">
             <h2>Billing Details</h2>
-            <form
-              action="/create-checkout-session"
-              method="POST"
-              onSubmit={handleSubmit}
-            >
+            <form action="/create-checkout-session" method="POST">
               <div className="checkout-form-1">
                 <div className="checkout-form-1-1">
                   <label htmlFor="firstName">First Name*</label>
@@ -239,8 +220,8 @@ const Checkout = () => {
             <h2>Product</h2>
             {cartItems.map((item: Product, key: number) => {
               return (
-                <div key={key} className="products-list">
-                  <div className="product-item">
+                <div key={key} className="products-list-checkout">
+                  <div className="product-item-checkout">
                     <p className="text--item">{item.title}</p>
                     <p>x {item.quantity}</p>
                     <p>{item.price * item.quantity} €</p>
@@ -253,7 +234,12 @@ const Checkout = () => {
               <p>{getCartTotal()} €</p>
             </div>
             <div className="checkout-button">
-              <button type="submit">
+              <button
+                type="button"
+                onClick={async () => {
+                  await handleSubmit();
+                }}
+              >
                 Place Order
               </button>
             </div>

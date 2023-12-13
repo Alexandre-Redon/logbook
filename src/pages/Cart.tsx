@@ -8,6 +8,8 @@ import { CartContext } from "../context/Cart";
 const Cart = () => {
   const { cartItems, addToCart, removeFromCart, getCartTotal } = useContext(CartContext);
 
+  console.log(cartItems);
+  
   return (
     <section className="cart">
       <article
@@ -53,14 +55,14 @@ const Cart = () => {
                   <div className="add-remove-cart">
                     <button
                       className="button-more-less"
-                      onClick={() => addToCart(item.id)}
+                      onClick={() => addToCart(item)}
                     >
                       +
                     </button>
                     <p>{item.quantity}</p>
                     <button
                       className="button-more-less"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item)}
                     >
                       -
                     </button>

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { Product } from "../types/products";
 import { data } from "../data/data";
 import { ApiContext } from "../context/ApiContext";
-import { Category } from "../types/category";
-// import all images from src/assets/categories
 
 const Home = () => {
   const [showMore, setShowMore] = useState<number>(12);
@@ -15,14 +13,11 @@ const Home = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, [getAllProducts]);
+  }, []);
 
   useEffect(() => {
     getCategories();
-  }, [getCategories]);
-
-  console.log(product);
-  console.log(categories);
+  }, []);
 
   return (
     <div className="Home">
@@ -45,13 +40,13 @@ const Home = () => {
       <section className="categories">
         <h2 className="categories-title">Browse The Range</h2>
         <div className="categories-list">
-          {categories.slice(0, 8).map((category: Category) => (
+          {categories.slice(0, 8).map((category: string) => (
             <Link
               to={`/shop/productsDetails/${category}`}
               className="categories-list-item"
             >
               {categoryImg.map((img) => {
-                if (img.name === category.name) {
+                if (img.name === category) {
                   return (
                     <React.Fragment key={img.name}>
                       <img
@@ -61,7 +56,7 @@ const Home = () => {
                       />
                       <p className="category-name">
                         {category
-                          ? category.name.charAt(0).toUpperCase() + category.name.slice(1)
+                          ? category.charAt(0).toUpperCase() + category.slice(1)
                           : null}
                       </p>
                     </React.Fragment>

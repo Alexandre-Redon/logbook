@@ -4,8 +4,8 @@ import { Product } from "../types/products";
 
 type DefaultValues = {
   cartItems: Product[];
-  addToCart: (item: number) => void;
-  removeFromCart: (item: number) => void;
+  addToCart: (item: Product) => void;
+  removeFromCart: (item: Product) => void;
   clearCart: () => void;
   getCartTotal: () => number;
 };
@@ -30,35 +30,40 @@ export const CartProvider = ({ children } : Props) => {
       : []
   );
 
-  const addToCart = (item: number) => {
-    const isItemInCart = cartItems.find((cartItem : Product) => cartItem.id === item);
+  // if add to cart, check if item is already in cart
+  // if yes, increment item.quantity
+  // if no, add item to cart and set item.quantity to 1
+  const addToCart = (item: Product) => {
+    const isItemInCart = cartItems.find(
+      (cartItem: Product) => cartItem.id === item.id
+    );
 
     if (isItemInCart) {
       setCartItems(
-        cartItems.map((cartItem : Product) =>
-          cartItem.id === item
+        cartItems.map((cartItem: Product) =>
+          cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { item, quantity: 1 }]);
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
   };
 
-  const removeFromCart = (item: number) => {
+  const removeFromCart = (item: Product) => {
     const isItemInCart = cartItems.find(
-      (cartItem: Product) => cartItem.id === item
+      (cartItem: Product) => cartItem.id === item.id
     );
 
     console.log(isItemInCart);
 
     if (isItemInCart.quantity === 1) {
-      setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item));
+      setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item.id));
     } else {
       setCartItems(
         cartItems.map((cartItem: Product) =>
-          cartItem.id === item
+          cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity - 1 }
             : cartItem
         )
