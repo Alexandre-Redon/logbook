@@ -26,48 +26,9 @@ const Checkout = () => {
         "pk_test_51OMAwiLuXgBa7HeX6ag39VWuPm3kqf0IkbBiPjW7FHf6cLH8T1otXULcY8DvnPvbYOqOTNuGIweVE2qxhnbn0kqj006GpmLxO6"
       );
 
-  // const validationOrderSchema = z.object({
-  //   firstName: z.string().min(2, "Too short").max(50, "Too long"),
-  //   lastName: z.string().min(2, "Too short").max(50, "Too long"),
-  //   companyName: z.optional(z.string()),
-  //   country: z.string(),
-  //   streetAdress: z.string(),
-  //   town: z.string(),
-  //   zipCode: z.string(),
-  //   phone: z.string(),
-  //   email: z.string().email(),
-  //   order: z.object({
-  //     id: z.number(),
-  //     name: z.string(),
-  //     price: z.number(),
-  //     products: z.array(
-  //       z.object({
-  //         id: z.string(),
-  //         title: z.string(),
-  //         description: z.string(),
-  //         price: z.number(),
-  //         discountPercentage: z.number(),
-  //         rating: z.number(),
-  //         stock: z.number(),
-  //         brand: z.string(),
-  //         category: z.string(),
-  //         thumbnail: z.string(),
-  //         images: z.array(z.string()),
-  //         quantity: z.number(),
-  //       })
-  //     ),
-  //     status: z.string(),
-  //     created_at: z.string(),
-  //     updated_at: z.string(),
-  //   }),
-  // });
-
   const handleSubmit = async () => {
     console.log("cartItems", cartItems);
-
-    //const stripe = await loadStripe(env.VITE_STRIPE_PUBLIC_KEY);
-
-    // body with product in cart
+    
     const body = {
       cartItems,
     };
@@ -90,6 +51,7 @@ const Checkout = () => {
     if (!stripe) {
       return;
     }
+
     const { error } = await stripe.redirectToCheckout({
       sessionId: responseData.sessionId,
     });
