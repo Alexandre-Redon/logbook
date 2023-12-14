@@ -1,16 +1,16 @@
 import { useContext, useState } from "react";
 import background from "../assets/shop_background.jpg";
 import "../styles/checkout.css";
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import { Product } from "../types/products";
 import { CartContext } from "../context/Cart";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { env } from "../env";
 
-const Checkout = () => {
-  const { cartItems, getCartTotal } = useContext(CartContext);
 
+const Checkout = () => {
+  const { cartItems, getCartTotal, setOrderData } = useContext(CartContext);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -26,16 +26,39 @@ const Checkout = () => {
         "pk_test_51OMAwiLuXgBa7HeX6ag39VWuPm3kqf0IkbBiPjW7FHf6cLH8T1otXULcY8DvnPvbYOqOTNuGIweVE2qxhnbn0kqj006GpmLxO6"
       );
 
+
+  const orderData = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    address: streetAdress,
+    city: town,
+    postalCode: zipCode,
+    country: country,
+    phone: phone,
+    cartItems: cartItems,
+    status: "Pending",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
   const handleSubmit = async () => {
-    console.log("cartItems", cartItems);
-    
+    console.log("order", orderData);
+
     const body = {
       cartItems,
+      orderData,
     };
 
     const header = {
       "Content-Type": "application/json",
     };
+
+    setOrderData(orderData);
+
+    //put orderData in localStorage
+    localStorage.setItem("orderData", JSON.stringify(orderData));
+
 
     const response = await fetch(
       "https://logbook-backend.vercel.app/payments/create-checkout-session",
@@ -47,6 +70,7 @@ const Checkout = () => {
     );
 
     const responseData = await response.json();
+
     const stripe = await loadStripe(env.VITE_STRIPE_PUBLIC_KEY);
     if (!stripe) {
       return;

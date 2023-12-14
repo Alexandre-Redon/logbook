@@ -1,6 +1,12 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/Cart";
+import { initializeApp } from "firebase/app";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+} from "firebase/firestore";
 import "../styles/successPage.css";
 
 const SuccessPage = () => {
@@ -9,6 +15,43 @@ const SuccessPage = () => {
     localStorage.clear();
     clearCart();
   };
+
+  const orderData = localStorage.getItem("orderData");
+  console.log("orderData : ", orderData);
+  
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA6bwGgwel-Z8fEjxwV54OjDdjq6VJqBis",
+    authDomain: "e-commerce-36f59.firebaseapp.com",
+    projectId: "e-commerce-36f59",
+    storageBucket: "e-commerce-36f59.appspot.com",
+    messagingSenderId: "992782694628",
+    appId: "1:992782694628:web:b1acea4ab86fc1e99a94f1",
+    measurementId: "G-LTWB875KK3",
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);  
+  
+  // Add a new document with a generated id.
+  const addOrder = async () => {
+    if (orderData) {
+      const docRef = await addDoc(collection(db, "orders"), JSON.parse(orderData));
+      console.log("Document written with ID: ", docRef.id);
+    } else {
+      console.log("No order data");
+    }
+    
+  };
+
+  useEffect(() => {
+    addOrder();
+    localStorage.removeItem("orderData");
+  }, []);
+
+
+
 
   return (
     <div className="container">

@@ -1,21 +1,39 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { Product } from "../types/products";
+import { Order } from "../types/order";
 
 
 type DefaultValues = {
   cartItems: Product[];
+  order: Order;
   addToCart: (item: Product) => void;
   removeFromCart: (item: Product) => void;
   clearCart: () => void;
   getCartTotal: () => number;
+  setOrderData: (order: Order) => void;
 };
 
 const defaultValues: DefaultValues = {
   cartItems: [],
+  order: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "",
+    phone: "",
+    cartItems: [],
+    status: "",
+    created_at: "",
+    updated_at: ""
+  },
   addToCart: () => {},
   removeFromCart: () => {},
   clearCart: () => {},
   getCartTotal: () => 0,
+  setOrderData: () => {},
 };
 
 export const CartContext = createContext(defaultValues);
@@ -29,6 +47,8 @@ export const CartProvider = ({ children } : Props) => {
       ? JSON.parse(localStorage.getItem("cartItems")!)
       : []
   );
+
+  const [order, setOrder] = useState<Order>(defaultValues.order);
 
   // if add to cart, check if item is already in cart
   // if yes, increment item.quantity
@@ -75,6 +95,10 @@ export const CartProvider = ({ children } : Props) => {
     setCartItems([]);
   };
 
+  const setOrderData = (order: Order) => {
+    setOrder(order);
+  }
+
   const getCartTotal = () => {
     return cartItems.reduce(
       (total: number, item: Product) => total + item.price * item.quantity,
@@ -97,6 +121,8 @@ export const CartProvider = ({ children } : Props) => {
     <CartContext.Provider
       value={{
         cartItems,
+        order,
+        setOrderData,
         addToCart,
         removeFromCart,
         clearCart,
