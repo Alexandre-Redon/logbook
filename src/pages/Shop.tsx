@@ -43,7 +43,7 @@ const Shop = () => {
                 </div>
                 <button
                   className="shop-products-card-btn"
-                  onClick={() => addToCart(product.id)}
+                  onClick={() => addToCart(product)}
                 >
                   Add to cart
                 </button>

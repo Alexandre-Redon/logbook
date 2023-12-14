@@ -1,21 +1,39 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { Product } from "../types/products";
+import { Order } from "../types/order";
 
 
 type DefaultValues = {
   cartItems: Product[];
-  addToCart: (item: number) => void;
-  removeFromCart: (item: number) => void;
+  order: Order;
+  addToCart: (item: Product) => void;
+  removeFromCart: (item: Product) => void;
   clearCart: () => void;
   getCartTotal: () => number;
+  setOrderData: (order: Order) => void;
 };
 
 const defaultValues: DefaultValues = {
   cartItems: [],
+  order: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "",
+    phone: "",
+    cartItems: [],
+    status: "",
+    created_at: "",
+    updated_at: ""
+  },
   addToCart: () => {},
   removeFromCart: () => {},
   clearCart: () => {},
   getCartTotal: () => 0,
+  setOrderData: () => {},
 };
 
 export const CartContext = createContext(defaultValues);
@@ -30,35 +48,42 @@ export const CartProvider = ({ children } : Props) => {
       : []
   );
 
-  const addToCart = (item: number) => {
-    const isItemInCart = cartItems.find((cartItem : Product) => cartItem.id === item);
+  const [order, setOrder] = useState<Order>(defaultValues.order);
+
+  // if add to cart, check if item is already in cart
+  // if yes, increment item.quantity
+  // if no, add item to cart and set item.quantity to 1
+  const addToCart = (item: Product) => {
+    const isItemInCart = cartItems.find(
+      (cartItem: Product) => cartItem.id === item.id
+    );
 
     if (isItemInCart) {
       setCartItems(
-        cartItems.map((cartItem : Product) =>
-          cartItem.id === item
+        cartItems.map((cartItem: Product) =>
+          cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { item, quantity: 1 }]);
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
   };
 
-  const removeFromCart = (item: number) => {
+  const removeFromCart = (item: Product) => {
     const isItemInCart = cartItems.find(
-      (cartItem: Product) => cartItem.id === item
+      (cartItem: Product) => cartItem.id === item.id
     );
 
     console.log(isItemInCart);
 
     if (isItemInCart.quantity === 1) {
-      setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item));
+      setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item.id));
     } else {
       setCartItems(
         cartItems.map((cartItem: Product) =>
-          cartItem.id === item
+          cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity - 1 }
             : cartItem
         )
@@ -69,6 +94,10 @@ export const CartProvider = ({ children } : Props) => {
   const clearCart = () => {
     setCartItems([]);
   };
+
+  const setOrderData = (order: Order) => {
+    setOrder(order);
+  }
 
   const getCartTotal = () => {
     return cartItems.reduce(
@@ -92,6 +121,8 @@ export const CartProvider = ({ children } : Props) => {
     <CartContext.Provider
       value={{
         cartItems,
+        order,
+        setOrderData,
         addToCart,
         removeFromCart,
         clearCart,

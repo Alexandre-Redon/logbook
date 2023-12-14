@@ -10,6 +10,8 @@ import Blog from "./pages/Blog";
 import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
 import Contact from "./pages/Contact";
+import SuccessPage from "./pages/SuccessPage";
+import CancelPage from "./pages/CancelPage";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/cancel" element={<CancelPage />} />
       </Route>
     </Routes>
   );
