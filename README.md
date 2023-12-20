@@ -1,27 +1,30 @@
-# React + TypeScript + Vite
+# Project Name
+LogBook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+LogBook is an e-commerce website based on a dummy API to fetch some dummies data.
 
-Currently, two official plugins are available:
+## Installation front-end
+1. Clone the repository: `git clone https://github.com/Alexandre-Redon/logbook.git`
+2. Navigate to the project directory: `cd logbook`
+3. Install the dependencies: `npm install`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation back-end
+I have published my backend on Vercel to simplify deployment. If you want to install it locally, follow these steps:
 
-## Expanding the ESLint configuration
+1. Clone the repository: `git clone https://github.com/Alexandre-Redon/logbook_backend.git`
+2. Navigate to the project directory: `cd logbook_backend`
+3. Install the dependencies: `npm install`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Note:** If you decide to install the backend locally, you need to make a modification in the code. Open the `Checkout.tsx` file and locate the following lines (58 to 65):
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```javascript
+const response = await fetch(
+  "https://logbook-backend.vercel.app/payments/create-checkout-session",
+  {
+    method: "POST",
+    headers: header,
+    body: JSON.stringify(body),
+  }
+);
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
