@@ -28,3 +28,14 @@ const response = await fetch(
   }
 );
 ```
+To
+```javascript
+const response = await fetch(
+  "https://localhost:3000/payments/create-checkout-session",
+  {
+    method: "POST",
+    headers: header,
+    body: JSON.stringify(body),
+  }
+);
+```
