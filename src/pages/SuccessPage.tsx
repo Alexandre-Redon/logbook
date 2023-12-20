@@ -2,11 +2,7 @@ import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/Cart";
 import { initializeApp } from "firebase/app";
-import {
-  addDoc,
-  collection,
-  getFirestore,
-} from "firebase/firestore";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import "../styles/successPage.css";
 
 const SuccessPage = () => {
@@ -17,8 +13,6 @@ const SuccessPage = () => {
   };
 
   const orderData = localStorage.getItem("orderData");
-  console.log("orderData : ", orderData);
-  
 
   const firebaseConfig = {
     apiKey: "AIzaSyA6bwGgwel-Z8fEjxwV54OjDdjq6VJqBis",
@@ -32,26 +26,21 @@ const SuccessPage = () => {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);  
-  
+  const db = getFirestore(app);
+
   // Add a new document with a generated id.
   const addOrder = async () => {
     if (orderData) {
-      const docRef = await addDoc(collection(db, "orders"), JSON.parse(orderData));
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(db, "orders"), JSON.parse(orderData));
     } else {
-      console.log("No order data");
+      console.error("No order data");
     }
-    
   };
 
   useEffect(() => {
     addOrder();
     localStorage.removeItem("orderData");
   }, []);
-
-
-
 
   return (
     <div className="container">

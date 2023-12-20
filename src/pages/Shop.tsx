@@ -11,16 +11,29 @@ const Shop = () => {
   const [page] = useState(1);
   const { getAllProducts, product } = useContext(ApiContext);
   const { addToCart } = useContext(CartContext);
+  const [addedToCart, setAddedToCart] = useState<number | null>(null);
+  const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
-  const Products = ({ currentProducts } : any) => {
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+    setAddedToCart(product.id);
+
+    // Réinitialiser l'état après quelques secondes (par exemple, 2 secondes)
+    setTimeout(() => {
+      setAddedToCart(null);
+    }, 1500);
+  };
+
+  const Products = ({ currentProducts }: any) => {
     return (
       <div className="products-list">
         {currentProducts &&
           currentProducts.map((product: Product) => {
+            const isAdded = addedToCart === product.id;
             return (
               // add to cart
               <div className="shop-products-card" key={product.id}>
@@ -42,32 +55,31 @@ const Shop = () => {
                   </p>
                 </div>
                 <button
-                  className="shop-products-card-btn"
-                  onClick={() => addToCart(product)}
+                  className={`shop-products-card-btn ${
+                    isAdded ? "added-to-cart" : ""
+                  }`}
+                  onClick={() => handleAddToCart(product)}
                 >
-                  Add to cart
+                  {isAdded ? <p>&#10004;</p> : <p>Ajouter au panier</p>}
                 </button>
               </div>
             );
           })}
       </div>
     );
-  }
+  };
 
   const PaginatedItems = ({ productsPerPage }: any) => {
-    const [itemOffset, setItemOffset] = useState(0);
-
     const endOffset = itemOffset + productsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = product.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(product.length / productsPerPage);
+    
+    
 
-    const handlePageClick = (event : any) => {
+    const handlePageClick = (event: any) => {
       const newOffset = (event.selected * productsPerPage) % product.length;
-      console.log(
-        `User requested page number ${event.selected}, which is offset ${newOffset}`
-      );
       setItemOffset(newOffset);
+
     };
 
     return (
@@ -78,14 +90,14 @@ const Shop = () => {
           breakLabel="..."
           nextLabel="suivant >"
           onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={4}
           pageCount={pageCount}
           previousLabel="< précédent"
           renderOnZeroPageCount={null}
         />
       </>
     );
-  }
+  };
 
   return (
     <div className="shop">
@@ -127,6 +139,7 @@ const Shop = () => {
           <PaginatedItems productsPerPage={16} />
         </div>
       </article>
+      {/* green modal to say that the item has been added to the cart */}
     </div>
   );
 };

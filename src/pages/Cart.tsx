@@ -6,9 +6,8 @@ import { Product } from "../types/products";
 import { CartContext } from "../context/Cart";
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart, getCartTotal } = useContext(CartContext);
+  const { cartItems, addToCart, removeFromCart, getCartTotal, clearCart } = useContext(CartContext);
 
-  console.log(cartItems);
   
   return (
     <section className="cart">
@@ -82,6 +81,9 @@ const Cart = () => {
             <Link className="cart-total-checkout" to="/checkout">
               <p>Check Out</p>
             </Link>
+            <button className="cart-total-clear" onClick={() => clearCart()}>
+              Clear Cart
+            </button>
           </div>
         </div>
       </article>

@@ -116,10 +116,37 @@
     margin: 0.5rem;
     cursor: pointer;
     border: 1px solid #EF6D58;
+    width: 73%;
 }
 
 .shop-products-card-btn:hover {
     background-color: #F9F1E7;
     color: #EF6D58;
     border: 1px solid #EF6D58;
+}
+
+.added-to-cart {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border: 1px solid green;
+    width: 73%;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.added-to-cart:hover {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    border: 1px solid green;
+    width: 73%;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }

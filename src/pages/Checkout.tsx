@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
 import background from "../assets/shop_background.jpg";
 import "../styles/checkout.css";
-import { Link  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Product } from "../types/products";
 import { CartContext } from "../context/Cart";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { env } from "../env";
-
 
 const Checkout = () => {
   const { cartItems, getCartTotal, setOrderData } = useContext(CartContext);
@@ -26,7 +25,6 @@ const Checkout = () => {
         "pk_test_51OMAwiLuXgBa7HeX6ag39VWuPm3kqf0IkbBiPjW7FHf6cLH8T1otXULcY8DvnPvbYOqOTNuGIweVE2qxhnbn0kqj006GpmLxO6"
       );
 
-
   const orderData = {
     firstName: firstName,
     lastName: lastName,
@@ -43,8 +41,6 @@ const Checkout = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("order", orderData);
-
     const body = {
       cartItems,
       orderData,
@@ -58,7 +54,6 @@ const Checkout = () => {
 
     //put orderData in localStorage
     localStorage.setItem("orderData", JSON.stringify(orderData));
-
 
     const response = await fetch(
       "https://logbook-backend.vercel.app/payments/create-checkout-session",

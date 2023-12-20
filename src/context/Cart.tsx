@@ -76,7 +76,6 @@ export const CartProvider = ({ children } : Props) => {
       (cartItem: Product) => cartItem.id === item.id
     );
 
-    console.log(isItemInCart);
 
     if (isItemInCart.quantity === 1) {
       setCartItems(cartItems.filter((cartItem : Product) => cartItem.id !== item.id));
