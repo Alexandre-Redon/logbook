@@ -8,7 +8,6 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log("User logged in successfully");
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
@@ -17,8 +16,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      console.log("User", user);
+    const unsubscribe = firebase.auth().onAuthStateChanged(() => {
       setLoading(false);
     });
     return unsubscribe;
